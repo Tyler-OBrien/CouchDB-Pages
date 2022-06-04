@@ -3,6 +3,7 @@ using CouchDBPages.Server.Middleware;
 using CouchDBPages.Server.Models.Config;
 using CouchDBPages.Server.Models.Services;
 using CouchDBPages.Server.Services;
+using Prometheus;
 using Sentry.Extensibility;
 using Serilog;
 using Serilog.Events;
@@ -88,6 +89,11 @@ public class Program
 
         var app = builder.Build();
 
+        if (applicationConfig.Prometheus_Metrics_Port != default )
+        {
+            Log.Logger.Information($"Enabling Prometheus Metrics at port {applicationConfig.Prometheus_Metrics_Port}.");
+            app.UseMetricServer(applicationConfig.Prometheus_Metrics_Port);
+        }
         //app.UseSerilogRequestLogging();
 
         app.UseMiddleware<HeaderMiddleware>();
@@ -98,6 +104,7 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
 
 
         app.UseHttpsRedirection();
@@ -113,6 +120,12 @@ public class Program
             "{*url}",
             new { controller = "CouchDB", action = "GetFromDatabase" }
         );
+
+        if (applicationConfig.Prometheus_Metrics_Port != default)
+        {
+            app.UseHttpMetrics();
+        }
+       
 
         // We wouldn't flush any errors above to Log, but Sentry should be fine for that.
         try

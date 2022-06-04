@@ -13,17 +13,23 @@
     // Database names
     "CouchDB_Files_Database": "files",
     "CouchDB_Manifest_Database": "manifests",
-    "CouchDB_Secrets_Database": "secrets"
+    "CouchDB_Secrets_Database": "secrets",
+    // Sets the port Prometheus Metrics can be fetched from (at /metrics endpoint). If 0 or default, will not be enabled. Keep in mind if you enable this, you will need to also bind the port in Kestrel
+    "Prometheus_Metrics_Port": 9787
   },
   "Kestrel": {
     "Endpoints": {
       "Http": {
         "Url": "http://*:80",
-        "Protocols": "Http1AndHttp2AndHttp3"
+        "Protocols": "Http1AndHttp2"
+      },
+      "HttpPrometheus": {
+        "Url": "http://localhost:9787",
+        "Protocols": "Http1AndHttp2"
       },
       "Https": {
         "Url": "https://*:443",
-        "Protocols": "Http1AndHttp2AndHttp3",
+        "Protocols": "Http1AndHttp2",
         "Certificate": {
           "Path": "/etc/letsencrypt/live/....../fullchain.pem",
           "KeyPath": "/etc/letsencrypt/live/....../privkey.pem"
