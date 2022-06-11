@@ -39,7 +39,9 @@ Sample Config:
     "CouchDB_Manifest_Database": "manifests",
     "CouchDB_Secrets_Database": "secrets",
     // Sets the port Prometheus Metrics can be fetched from (at /metrics endpoint). If 0 or default, will not be enabled. Keep in mind if you enable this, you will need to also bind the port in Kestrel.
-    "Prometheus_Metrics_Port": 9787
+    "Prometheus_Metrics_Port": 9787,
+    // If Behind a proxy, will instruct ASP.NET Core to use at X-Forwarded-For and X-Forwarded-Proto Headers, also assumes some headers exist (See docs/nginx.md)
+    "Behind_Reverse_Proxy": false
   },
   "Kestrel": {
     "Endpoints": {

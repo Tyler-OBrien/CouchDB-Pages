@@ -9,7 +9,7 @@ public class TraceResponse
     }
 
     public TraceResponse(string host, string ip, string scheme, string userAgent, string requestProtocol,
-        string tlsProtocol, TraceResponseTLS tls, string location, string machineId, string geographicLocation)
+        string tlsProtocol, string tlsCipherInfo, string location, string machineId, string geographicLocation)
     {
         Host = host;
         IP = ip;
@@ -17,59 +17,29 @@ public class TraceResponse
         UserAgent = userAgent;
         RequestProtocol = requestProtocol;
         TLSProtocol = tlsProtocol;
-        TLS = tls;
+        TLSCipherInfo = tlsCipherInfo;
         Location = location;
         MachineId = machineId;
         GeographicLocation = geographicLocation;
     }
 
-    public string Host { get; }
-    public string IP { get; }
+    public string Host { set; get; }
+    public string IP { set; get; }
 
-    public string Scheme { get; }
+    public string Scheme { set; get; }
 
-    public string UserAgent { get; }
+    public string UserAgent { set; get; }
 
-    public string RequestProtocol { get; }
+    public string RequestProtocol { set; get; }
 
-    public string TLSProtocol { get; }
+    public string TLSProtocol { set; get; }
 
-    public TraceResponseTLS TLS { get; }
+    public string TLSCipherInfo { set; get; }
 
-    public string Location { get; }
+    public string Location { set; get; }
 
-    public string MachineId { get; }
+    public string MachineId { set; get; }
 
-    public string GeographicLocation { get; }
+    public string GeographicLocation { set; get; }
 }
 
-public class TraceResponseTLS
-{
-    public TraceResponseTLS()
-    {
-    }
-
-    public TraceResponseTLS(string cipherAlgorithm, string keyExchangeAlgorithm, string hashAlgorithm)
-    {
-        CipherAlgorithm = cipherAlgorithm;
-        KeyExchangeAlgorithm = keyExchangeAlgorithm;
-        HashAlgorithm = hashAlgorithm;
-    }
-
-    public TraceResponseTLS(ITlsHandshakeFeature? tlsHandshakeFeature)
-    {
-        CipherAlgorithm = tlsHandshakeFeature?.CipherAlgorithm.ToString() ?? "Unknown";
-        // https://github.com/dotnet/runtime/issues/55570
-        // 44500 is not included in the enum, but means ECDH_Ephem  (Ephemeral elliptic curve Diffie-Hellman key exchange algorithm)
-        if ((int)(tlsHandshakeFeature?.KeyExchangeAlgorithm ?? 0) == 44550)
-            KeyExchangeAlgorithm = "ECDH_Ephem";
-        else
-            KeyExchangeAlgorithm = tlsHandshakeFeature?.KeyExchangeAlgorithm.ToString() ?? "Unknown";
-
-        HashAlgorithm = tlsHandshakeFeature?.HashAlgorithm.ToString() ?? "Unknown";
-    }
-
-    public string CipherAlgorithm { get; }
-    public string KeyExchangeAlgorithm { get; }
-    public string HashAlgorithm { get; }
-}

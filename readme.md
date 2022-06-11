@@ -6,7 +6,7 @@ All data is stored in CouchDB as Attachments, so it is best to limit file size t
 
 This was designed for use with multiple regions, using CouchDB Replication.
 
-I am running this myself on https://tobrien.me, using a bunch of low-spec rented VPS and IPv4 & IPV6 BGP Anycast (Please excuse poor latency/bad routing. Need to clean up IPV6 routes & only half of the VPS's are on IPv4 Anycast)
+I am running this myself on https://tobrien.me (https://tobrien.me/cdn-cgi/trace-json), using a bunch of low-spec rented VPS and IPv4 & IPV6 BGP Anycast (Please excuse poor latency/bad routing. Need to clean up IPV6 routes & only 3 of the VPS's are on IPv4 Anycast).
 
 ## CouchDB-Pages-Server
 CouchDB Pages is the bulk of the code, an ASP.NET Core application handling serving requests and uploads.

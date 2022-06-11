@@ -40,3 +40,6 @@ Generic Data Sync has its configuration it generates at run time, with two Role 
 Unix Protected Setting will make the files only readable/writable by root.
 
 If you are using a distro that uses systemd, [here's a unit file you can use to run it as a service easily](systemd-setup.md).
+
+
+If you intend to use CouchDB-Pages behind Nginx, [here's some config info](nginx.md). There's some configuration changes and headers it expects.

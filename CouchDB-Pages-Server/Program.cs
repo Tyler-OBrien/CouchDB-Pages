@@ -3,6 +3,7 @@ using CouchDBPages.Server.Middleware;
 using CouchDBPages.Server.Models.Config;
 using CouchDBPages.Server.Models.Services;
 using CouchDBPages.Server.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 using Prometheus;
 using Sentry.Extensibility;
 using Serilog;
@@ -94,6 +95,15 @@ public class Program
             Log.Logger.Information($"Enabling Prometheus Metrics at port {applicationConfig.Prometheus_Metrics_Port}.");
             app.UseMetricServer(applicationConfig.Prometheus_Metrics_Port);
         }
+
+        if (applicationConfig.Behind_Reverse_Proxy)
+        {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+        }
+
         //app.UseSerilogRequestLogging();
 
         app.UseMiddleware<HeaderMiddleware>();

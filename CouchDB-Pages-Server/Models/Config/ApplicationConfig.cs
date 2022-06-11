@@ -21,4 +21,6 @@ public class ApplicationConfig
     public string CouchDB_Manifest_Database { get; set; }
 
     public string CouchDB_Secrets_Database { get; set; }
+
+    public bool Behind_Reverse_Proxy { get; set; }
 }
