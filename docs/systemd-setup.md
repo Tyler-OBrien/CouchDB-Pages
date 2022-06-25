@@ -6,6 +6,8 @@ Run as a service (Systemd unit file, assumes you installed the server at /opt/co
 cat > /etc/systemd/system/couchdb-pages.service<< EOF
 [Unit]
 Description=Runs CouchDB Pages
+Wants=network-online.target couchdb.service
+After=network-online.target couchdb.service
 
 [Service]
 User=root
