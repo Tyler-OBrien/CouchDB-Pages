@@ -42,9 +42,9 @@ public class UploadController : ControllerBase
 
     // POST api/<UploadController>
     [HttpGet("File/{fileHash}")]
-    public async Task<ActionResult> GetFile(string fileHash)
+    public async Task<ActionResult> GetFile(string fileHash, CancellationToken token)
     {
-        var uploadManifestResult = await _fileService.GetFileMetadata(fileHash);
+        var uploadManifestResult = await _fileService.GetFileMetadata(fileHash, token);
         if (uploadManifestResult == null)
             return NotFound();
         return Ok(uploadManifestResult);

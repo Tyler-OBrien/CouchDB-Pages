@@ -21,11 +21,11 @@ public class FileDataManifestService : IFileDataManifestService
         _apiBroker = apiBroker;
     }
 
-    public async Task<PagesFileManifest?> GetMetadata(string hostName)
+    public async Task<PagesFileManifest?> GetMetadata(string hostName, CancellationToken token = default)
     {
         if (_cache.TryGetValue(hostName, out PagesFileManifest? manifest)) return manifest;
 
-        manifest = await _apiBroker.FindManifestAsync(hostName);
+        manifest = await _apiBroker.FindManifestAsync(hostName, token);
 
         if (manifest != null)
         {
@@ -58,7 +58,7 @@ public class FileDataManifestService : IFileDataManifestService
         if (!uploadManifest.Preview)
         {
             var tryGetCurrentManifest =
-                await _apiBroker.FindManifestAsync(uploadManifest.Hostname);
+                await _apiBroker.FindManifestAsync(uploadManifest.Hostname, CancellationToken.None);
             if (tryGetCurrentManifest == null || string.IsNullOrWhiteSpace(tryGetCurrentManifest.ID))
             {
                 var indexManifest = new PagesFileManifest(uploadManifest) { ID = uploadManifest.Hostname };

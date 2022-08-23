@@ -7,9 +7,9 @@ public partial class APIBroker
 {
     public readonly string secretsDataDB;
 
-    public async Task<PagesSecret?> FindSecretAsync(string id)
+    public async Task<PagesSecret?> FindSecretAsync(string id, CancellationToken token)
     {
         return await _httpClient.GetFromJsonAsyncSupportNull<PagesSecret>(
-            $"/{secretsDataDB}/{Uri.EscapeDataString(id)}");
+            $"/{secretsDataDB}/{Uri.EscapeDataString(id)}", token);
     }
 }

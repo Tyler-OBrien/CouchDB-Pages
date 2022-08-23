@@ -18,9 +18,10 @@ public class FileService : IFileService
         _logger = logger;
     }
 
-    public async Task<FileDataResponse?> GetFile(string hostName, string path)
+    public async Task<FileDataResponse?> GetFile(string hostName, string path, CancellationToken token)
     {
-        var findManifest = await _fileDataManifestService.GetMetadata(hostName);
+        // Even if the request is cancelled, we should still cache the metadata
+        var findManifest = await _fileDataManifestService.GetMetadata(hostName, CancellationToken.None);
         if (findManifest == null)
         {
 #if DEBUG
@@ -28,6 +29,7 @@ public class FileService : IFileService
 #endif
             return null;
         }
+        
 
         // Remove the first slash
 
@@ -46,6 +48,6 @@ public class FileService : IFileService
         }
 
 
-        return await _fileDataService.GetFile(fileHashValue);
+        return await _fileDataService.GetFile(fileHashValue, token);
     }
 }

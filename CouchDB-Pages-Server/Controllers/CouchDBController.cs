@@ -17,7 +17,7 @@ public class CouchDBController : ControllerBase
     [HttpGet]
     [ResponseCacheAttribute(Duration = 60, Location = ResponseCacheLocation.Any)]
     [ETagMiddleware]
-    public async Task<ActionResult> GetFromDatabase()
+    public async Task<ActionResult> GetFromDatabase(CancellationToken token)
     {
         var hostName = HttpContext.Request.Host.Host;
         var path = HttpContext.Request.Path.Value ?? "";
@@ -25,7 +25,7 @@ public class CouchDBController : ControllerBase
         if (path.Length != 0)
             path = path.Substring(1);
 
-        var fileDataResponse = await _fileService.GetFile(hostName, path);
+        var fileDataResponse = await _fileService.GetFile(hostName, path, token);
 
         if (fileDataResponse == null) return NotFound();
 

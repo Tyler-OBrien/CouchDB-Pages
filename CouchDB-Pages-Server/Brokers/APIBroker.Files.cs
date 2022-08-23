@@ -7,15 +7,15 @@ public partial class APIBroker
 {
     public readonly string filesDataDB;
 
-    public async Task<HttpResponseMessage> GetFileAttachment(string fileHash)
+    public async Task<HttpResponseMessage> GetFileAttachment(string fileHash, CancellationToken token)
     {
         return await _httpClient.GetAsync("/" + filesDataDB + "/" + Uri.EscapeDataString(fileHash) + "/data");
     }
 
-    public async Task<PagesFile?> FindFileAsync(string id)
+    public async Task<PagesFile?> FindFileAsync(string id, CancellationToken token)
     {
         return await _httpClient.GetFromJsonAsyncSupportNull<PagesFile>("/" + filesDataDB + "/" +
-                                                                        Uri.EscapeDataString(id));
+                                                                        Uri.EscapeDataString(id), token);
     }
 
     public async Task<HttpResponseMessage> PutFileAsync(PagesFile newFile)

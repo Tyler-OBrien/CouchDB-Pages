@@ -13,9 +13,9 @@ public class SecretsService : ISecretsService
         _apiBroker = apiBroker;
     }
 
-    public async Task<PagesSecret?> GetSecret(string SecretID)
+    public async Task<PagesSecret?> GetSecret(string SecretID, CancellationToken token)
     {
-        var secret = await _apiBroker.FindSecretAsync(SecretID);
+        var secret = await _apiBroker.FindSecretAsync(SecretID, token);
         return secret;
     }
 }

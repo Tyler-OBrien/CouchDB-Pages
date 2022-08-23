@@ -4,5 +4,5 @@ namespace CouchDBPages.Server.Brokers;
 
 public partial interface IAPIBroker
 {
-    Task<PagesSecret?> FindSecretAsync(string id);
+    Task<PagesSecret?> FindSecretAsync(string id, CancellationToken token);
 }

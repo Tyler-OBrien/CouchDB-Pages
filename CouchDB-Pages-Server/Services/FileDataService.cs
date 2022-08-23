@@ -21,14 +21,14 @@ public class FileDataService : IFileDataService
         _apiBroker = apiBroker;
     }
 
-    public Task<PagesFile?> GetFileMetadata(string fileHashValue)
+    public Task<PagesFile?> GetFileMetadata(string fileHashValue, CancellationToken token)
     {
-        return _apiBroker.FindFileAsync(fileHashValue);
+        return _apiBroker.FindFileAsync(fileHashValue, token);
     }
 
-    public async Task<FileDataResponse?> GetFile(string fileHashValue)
+    public async Task<FileDataResponse?> GetFile(string fileHashValue, CancellationToken token)
     {
-        var response = await _apiBroker.GetFileAttachment(fileHashValue);
+        var response = await _apiBroker.GetFileAttachment(fileHashValue, token);
 
         // Prevent leaking up bad responses
         if (response.StatusCode != HttpStatusCode.OK) return null;
@@ -40,7 +40,7 @@ public class FileDataService : IFileDataService
         var couchDbBodyTime = response.Headers.TryResolveHeader("X-CouchDB-Body-Time");
 
 
-        return new FileDataResponse(await response.Content.ReadAsStreamAsync(), contentType ?? "text/html",
+        return new FileDataResponse(await response.Content.ReadAsStreamAsync(token), contentType ?? "text/html",
             contentLength ?? "0", etag ?? "", couchDbBodyTime);
     }
 

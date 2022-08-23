@@ -8,10 +8,10 @@ public partial class APIBroker
     public readonly string filesManifestDB;
 
 
-    public async Task<PagesFileManifest?> FindManifestAsync(string id)
+    public async Task<PagesFileManifest?> FindManifestAsync(string id, CancellationToken token)
     {
         return await _httpClient.GetFromJsonAsyncSupportNull<PagesFileManifest>(
-            $"/{filesManifestDB}/{Uri.EscapeDataString(id)}");
+            $"/{filesManifestDB}/{Uri.EscapeDataString(id)}", token);
     }
 
     public async Task<HttpResponseMessage> PutManifestAsync(PagesFileManifest manifest)

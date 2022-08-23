@@ -4,5 +4,5 @@ namespace CouchDBPages.Server.Models.Services;
 
 public interface IFileService
 {
-    Task<FileDataResponse?> GetFile(string hostName, string path);
+    Task<FileDataResponse?> GetFile(string hostName, string path, CancellationToken token);
 }

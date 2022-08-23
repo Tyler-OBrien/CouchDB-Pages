@@ -30,12 +30,12 @@ public class CouchDBController
         var Stream = new MemoryStream(new byte[] { 9, 4, 3, 2 });
         var response = new FileDataResponse(Stream, "text/html", "900",
             "\"p5krX2MyR6i3cIPjDZ6rRg==\"", "0");
-        fileServiceMock.Setup(fileservice => fileservice.GetFile("localhost", "")).ReturnsAsync(response);
+        fileServiceMock.Setup(fileservice => fileservice.GetFile("localhost", "", CancellationToken.None)).ReturnsAsync(response);
         var homeController = new Server.Controllers.CouchDBController(fileServiceMock.Object);
         homeController.ControllerContext = new ControllerContext();
         homeController.ControllerContext.HttpContext = CreateDefaultHttpContext();
         // act
-        var result = await homeController.GetFromDatabase();
+        var result = await homeController.GetFromDatabase(CancellationToken.None);
         // assert
         ((FileStreamResult)result).FileStream.Should().BeSameAs(Stream,
             "The file data response's stream should be sent back to the client.");
@@ -47,12 +47,12 @@ public class CouchDBController
         // arrange
         var fileServiceMock = new Mock<IFileService>();
         FileDataResponse response = null;
-        fileServiceMock.Setup(fileservice => fileservice.GetFile("localhost", "")).ReturnsAsync(response);
+        fileServiceMock.Setup(fileservice => fileservice.GetFile("localhost", "", CancellationToken.None)).ReturnsAsync(response);
         var homeController = new Server.Controllers.CouchDBController(fileServiceMock.Object);
         homeController.ControllerContext = new ControllerContext();
         homeController.ControllerContext.HttpContext = CreateDefaultHttpContext();
         // act
-        var result = await homeController.GetFromDatabase();
+        var result = await homeController.GetFromDatabase(CancellationToken.None);
         // assert
         ((NotFoundResult)result).StatusCode.Should().Be((int)HttpStatusCode.NotFound,
             "If we sent back no file, the controller should return null.");
@@ -64,12 +64,12 @@ public class CouchDBController
         // arrange
         var fileServiceMock = new Mock<IFileService>();
         FileDataResponse response = null;
-        fileServiceMock.Setup(fileservice => fileservice.GetFile("localhost", "")).ReturnsAsync(response);
+        fileServiceMock.Setup(fileservice => fileservice.GetFile("localhost", "", CancellationToken.None)).ReturnsAsync(response);
         var homeController = new Server.Controllers.CouchDBController(fileServiceMock.Object);
         homeController.ControllerContext = new ControllerContext();
         homeController.ControllerContext.HttpContext = CreateEmptyHttpContext();
         // act
-        var result = await homeController.GetFromDatabase();
+        var result = await homeController.GetFromDatabase(CancellationToken.None);
         // assert
         ((NotFoundResult)result).StatusCode.Should()
             .Be((int)HttpStatusCode.NotFound, "If no path is sent, nothing should error out.");

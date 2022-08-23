@@ -31,7 +31,7 @@ public class FileDataManifestServiceTests
         var response = new PagesFileManifest("54389gh89gfdfdgfdg", HOSTNAME,
             new Dictionary<string, string> { { "index.html", "88gg78t8gfd897" } }, false);
 
-        apiBrokerMock.Setup(apiBroker => apiBroker.FindManifestAsync(HOSTNAME)).ReturnsAsync(response);
+        apiBrokerMock.Setup(apiBroker => apiBroker.FindManifestAsync(HOSTNAME, It.IsAny<CancellationToken>())).ReturnsAsync(response);
 
 
         var fileDataManifestService =
@@ -56,7 +56,7 @@ public class FileDataManifestServiceTests
         var response = new PagesFileManifest("54389gh89gfdfdgfdg", HOSTNAME,
             new Dictionary<string, string> { { "index.html", "88gg78t8gfd897" } }, false);
 
-        apiBrokerMock.Setup(apiBroker => apiBroker.FindManifestAsync(HOSTNAME)).ReturnsAsync(response);
+        apiBrokerMock.Setup(apiBroker => apiBroker.FindManifestAsync(HOSTNAME, It.IsAny<CancellationToken>())).ReturnsAsync(response);
 
 
         var fileDataManifestService =
@@ -172,7 +172,7 @@ public class FileDataManifestServiceTests
             .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
 
 
-        apiBrokerMock.Setup(repo => repo.FindManifestAsync(HOSTNAME)).ReturnsAsync(newManifest);
+        apiBrokerMock.Setup(repo => repo.FindManifestAsync(HOSTNAME, It.IsAny<CancellationToken>())).ReturnsAsync(newManifest);
         apiBrokerMock.Setup(apibroker => apibroker.PutFileAsync(It.IsAny<PagesFile>()))
             .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.Created));
 

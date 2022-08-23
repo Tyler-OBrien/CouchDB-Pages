@@ -4,5 +4,5 @@ namespace CouchDBPages.Server.Models.Services;
 
 public interface ISecretsService
 {
-    Task<PagesSecret?> GetSecret(string SecretID);
+    Task<PagesSecret?> GetSecret(string SecretID, CancellationToken token);
 }

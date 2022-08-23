@@ -24,7 +24,7 @@ public class ApiKeyMiddleware : Attribute, IAsyncActionFilter
 
         var secretsService = context.HttpContext.RequestServices.GetRequiredService<ISecretsService>();
 
-        var apiKey = await secretsService.GetSecret(APIKEYNAME);
+        var apiKey = await secretsService.GetSecret(APIKEYNAME, context.HttpContext.RequestAborted);
 
         if (apiKey == null)
         {

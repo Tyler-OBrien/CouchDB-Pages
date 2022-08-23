@@ -35,14 +35,14 @@ public class FileDataServiceTests
         response.Headers.ETag = new EntityTagHeaderValue(ETAG);
         response.Headers.Add("X-CouchDB-Body-Time", CouchDB_Body_Time);
 
-        apiBrokerMock.Setup(apiBroker => apiBroker.GetFileAttachment(HOSTNAME))
+        apiBrokerMock.Setup(apiBroker => apiBroker.GetFileAttachment(HOSTNAME, It.IsAny<CancellationToken>()))
             .ReturnsAsync(response);
 
 
         var fileDataService = new FileDataService(apiBrokerMock.Object);
 
         // act
-        var result = await fileDataService.GetFile(HOSTNAME);
+        var result = await fileDataService.GetFile(HOSTNAME, It.IsAny<CancellationToken>());
         // assert
         result.Should().NotBeNull("We should get back a valid response");
         result.ContentType.Should().Be(CONTENT_TYPE, "Content Type should be forwarded");
@@ -79,14 +79,14 @@ public class FileDataServiceTests
         response.Headers.ETag = new EntityTagHeaderValue(ETAG);
         response.Headers.Add("X-CouchDB-Body-Time", "1" + CouchDB_Body_Time);
 
-        apiBrokerMock.Setup(apiBroker => apiBroker.GetFileAttachment(HOSTNAME))
+        apiBrokerMock.Setup(apiBroker => apiBroker.GetFileAttachment(HOSTNAME, It.IsAny<CancellationToken>()))
             .ReturnsAsync(response);
 
 
         var fileDataService = new FileDataService(apiBrokerMock.Object);
 
         // act
-        var result = await fileDataService.GetFile(HOSTNAME);
+        var result = await fileDataService.GetFile(HOSTNAME, It.IsAny<CancellationToken>());
         // assert
         result.Should().NotBeNull("We should get back a valid response");
         result.ContentType.Should().NotBe(CONTENT_TYPE, "Content Type should be forwarded");

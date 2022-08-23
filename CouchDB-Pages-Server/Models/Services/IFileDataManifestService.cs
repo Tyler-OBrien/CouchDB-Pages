@@ -6,7 +6,7 @@ namespace CouchDBPages.Server.Models.Services;
 
 public interface IFileDataManifestService
 {
-    Task<PagesFileManifest?> GetMetadata(string hostName);
+    Task<PagesFileManifest?> GetMetadata(string hostName, CancellationToken token);
 
 
     Task<GenericResponse> PutMetadata(UploadFileManifest newFileManifest);

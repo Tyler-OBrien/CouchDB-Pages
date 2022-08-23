@@ -142,14 +142,14 @@ public static class Extensions
 
     #region HTTPClient Helpers
 
-    public static async Task<T?> GetFromJsonAsyncSupportNull<T>(this HttpClient client, string? requestUri)
+    public static async Task<T?> GetFromJsonAsyncSupportNull<T>(this HttpClient client, string? requestUri, CancellationToken token)
         where T : class
     {
-        var response = await client.GetAsync(requestUri);
+        var response = await client.GetAsync(requestUri, token);
         response.ThrowForServerSideErrors();
         if (response.IsSuccessStatusCode)
         {
-            var rawString = await response.Content.ReadAsStringAsync();
+            var rawString = await response.Content.ReadAsStringAsync(token);
 
 
             if (string.IsNullOrWhiteSpace(rawString) == false)

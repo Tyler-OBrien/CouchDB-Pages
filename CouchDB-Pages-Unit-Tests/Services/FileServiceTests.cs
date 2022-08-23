@@ -29,7 +29,7 @@ public class FileServiceTests
         var manifest = new PagesFileManifest(GITHASH, HOSTNAME,
             new Dictionary<string, string> { { PATH, FILEHASH } }, false);
         // Mock Response
-        fileDataManifestService.Setup(service => service.GetMetadata(HOSTNAME)).ReturnsAsync(manifest);
+        fileDataManifestService.Setup(service => service.GetMetadata(HOSTNAME, It.IsAny<CancellationToken>())).ReturnsAsync(manifest);
 
 
         var byteArray = new byte[] { 9, 4, 3, 2 };
@@ -37,13 +37,13 @@ public class FileServiceTests
         var response = new FileDataResponse(Stream, "text/html", "900",
             "\"p5krX2MyR6i3cIPjDZ6rRg==\"", "0");
 
-        fileDataService.Setup(service => service.GetFile(FILEHASH)).ReturnsAsync(response);
+        fileDataService.Setup(service => service.GetFile(FILEHASH, It.IsAny<CancellationToken>())).ReturnsAsync(response);
 
 
         var fileService = new FileService(fileDataManifestService.Object, fileDataService.Object, ILogger.Object);
 
         // act
-        var result = await fileService.GetFile(HOSTNAME, PATH);
+        var result = await fileService.GetFile(HOSTNAME, PATH, It.IsAny<CancellationToken>());
         // assert
         result.Should().NotBeNull("We should get back a valid response");
 
