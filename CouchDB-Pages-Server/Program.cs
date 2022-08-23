@@ -4,6 +4,8 @@ using CouchDBPages.Server.Models.Config;
 using CouchDBPages.Server.Models.Services;
 using CouchDBPages.Server.Services;
 using Microsoft.AspNetCore.HttpOverrides;
+using Polly;
+using Polly.Extensions.Http;
 using Prometheus;
 using Sentry.Extensibility;
 using Serilog;
@@ -58,7 +60,6 @@ public class Program
             options.UseCaseSensitivePaths = true;
         });
 
-        builder.Services.AddHttpClient();
 
 
         builder.Services.Configure<ApplicationConfig>(
@@ -77,6 +78,9 @@ public class Program
         builder.Services.AddScoped<ISecretsService, SecretsService>();
 
         builder.Services.AddScoped<IAPIBroker, APIBroker>();
+        builder.Services.AddHttpClient<IAPIBroker, APIBroker>()
+            .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+            .AddPolicyHandler(GetRetryPolicy());
         builder.Services.AddScoped<HeaderMiddleware>();
 
         builder.WebHost.UseKestrel(options => { options.AddServerHeader = false; });
@@ -151,5 +155,11 @@ public class Program
         {
             Log.CloseAndFlush();
         }
+    }
+    static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+    {
+        return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromMilliseconds(Math.Max(50, retryAttempt * 50)));
     }
 }
