@@ -2,21 +2,24 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>CouchDBPages.GenericDataSync</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <PublishSingleFile>true</PublishSingleFile>
+	  <SelfContained>true</SelfContained>
+	  <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Mono.Posix.NETStandard" Version="5.20.1-preview" />
-    <PackageReference Include="Sentry" Version="3.25.0" />
+    <PackageReference Include="Sentry" Version="3.29.1" />
     <PackageReference Include="Serilog" Version="2.12.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="Sodium.Core" Version="1.3.2" />
+    <PackageReference Include="Sodium.Core" Version="1.3.3" />
   </ItemGroup>
 
 </Project>
