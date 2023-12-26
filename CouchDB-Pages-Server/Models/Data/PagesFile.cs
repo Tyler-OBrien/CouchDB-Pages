@@ -1,10 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 using CouchDBPages.Server.Extensions;
-using Newtonsoft.Json;
 
 namespace CouchDBPages.Server.Models.Data;
 
-[JsonObject(ItemRequired = Required.Always)]
 public class PagesFile : IValidator
 {
     [JsonPropertyName("_id")]

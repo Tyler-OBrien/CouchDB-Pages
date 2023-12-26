@@ -119,7 +119,7 @@ public class FileDataManifestServiceTests
             .Callback<PagesFileManifest>(manifest =>
             {
                 // First manifest is the git sha, second if preview is disabled, should be index
-                Assert.AreNotEqual(manifest.ID, uploadManifest.Hostname);
+                manifest.ID.Should().NotBeEquivalentTo(uploadManifest.Hostname);
             })
             .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
 

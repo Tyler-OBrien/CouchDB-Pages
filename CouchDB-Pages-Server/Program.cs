@@ -55,8 +55,6 @@ public class Program
         builder.Services.AddLogging();
         builder.Services.AddResponseCaching(options =>
         {
-            // 8MB max
-            options.MaximumBodySize = 8388608;
             options.UseCaseSensitivePaths = true;
         });
 
@@ -90,6 +88,7 @@ public class Program
         {
             // ~341 MiB of Ram
             options.SizeLimit = 357913941;
+            options.ExpirationScanFrequency = TimeSpan.FromMinutes(2);
         });
 
         var app = builder.Build();
