@@ -10,6 +10,7 @@ const string UploadFileEndpoint = "/api/v1/Upload/File";
 
 
 using var client = new HttpClient();
+client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
 
 Console.WriteLine("Loading...");
 
